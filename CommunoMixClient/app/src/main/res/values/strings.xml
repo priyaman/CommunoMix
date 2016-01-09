@@ -19,4 +19,8 @@
     <string name="action_settings">Settings</string>
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="title_activity_host_party_dashboard">HostPartyDashboardActivity</string>
+    <string name="title_activity_user_choice">UserChoiceActivity</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_guest_home">GuestHomeActivity</string>
+    <string name="welcome_banner">Welcome to :</string>
 </resources>

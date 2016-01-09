@@ -25,23 +25,34 @@ import com.priyaman.communomixclient.databeans.SongBean;
 import com.priyaman.communomixclient.globals.GlobalConstants;
 import com.priyaman.communomixclient.globals.StaticGlobals;
 
-public class HostPartyDashboardActivity extends ListActivity {
-
-
+public class GuestHomeActivity extends ListActivity {
     private ListAdapter mChatListAdapter;
     private ValueEventListener mConnectedListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_host_party_dashboard);
+        setContentView(R.layout.activity_guest_home);
 
         // Setup our input methods. Enter key on the keyboard or pushing the send button
-        EditText inputText = (EditText) findViewById(R.id.messageInput);
+        EditText inputText = (EditText) findViewById(R.id.messageInputSong);
+
         inputText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
-                if (actionId == EditorInfo.IME_NULL && keyEvent.getAction() == KeyEvent.ACTION_DOWN) {
+                if (actionId == EditorInfo.IME_NULL && keyEvent.getAction() == android.view.KeyEvent.ACTION_DOWN) {
+                    sendMessage();
+                }
+                return true;
+            }
+        });
+
+        EditText inputText2 = (EditText) findViewById(R.id.messageInputArtist);
+
+        inputText2.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
+                if (actionId == EditorInfo.IME_NULL && keyEvent.getAction() == android.view.KeyEvent.ACTION_DOWN) {
                     sendMessage();
                 }
                 return true;
@@ -49,16 +60,22 @@ public class HostPartyDashboardActivity extends ListActivity {
         });
 
         findViewById(R.id.sendButton).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                sendMessage();
-            }
-        });
-    }
+        @Override
+        public void onClick(View view) {
+            sendMessage();
+        }
+    });
+}
 
     @Override
     public void onStart() {
         super.onStart();
+        while(StaticGlobals.currParty == null){
+
+        }
+        //Set Party Name
+        ((TextView)findViewById(R.id.partyIdHeader)).setText(getResources().getString(R.string.welcome_banner) +
+                StaticGlobals.currParty.getPartyName());
         // Setup our view and list adapter. Ensure it scrolls to the bottom as data changes
         final ListView listView = getListView();
         // Tell our list adapter that we only want 50 messages at a time
@@ -79,9 +96,9 @@ public class HostPartyDashboardActivity extends ListActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 boolean connected = (Boolean) dataSnapshot.getValue();
                 if (connected) {
-                    Toast.makeText(HostPartyDashboardActivity.this, "Connected to Firebase", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(GuestHomeActivity.this, "Connected to Firebase", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(HostPartyDashboardActivity.this, "Disconnected from Firebase", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(GuestHomeActivity.this, "Disconnected from Firebase", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -93,20 +110,20 @@ public class HostPartyDashboardActivity extends ListActivity {
     }
 
     private void sendMessage() {
-        EditText inputText = (EditText) findViewById(R.id.messageInput);
-        String input = inputText.getText().toString();
-        SongBean song = new SongBean();
-        if (!input.equals("")) {
+        EditText inputTextSong = (EditText) findViewById(R.id.messageInputSong);
+        EditText inputTextArtist = (EditText) findViewById(R.id.messageInputArtist);
+
+        String artist = inputTextArtist.getText().toString();
+        String songName = inputTextSong.getText().toString();
+        if(!artist.equals("") && !songName.equals(""))
+        {
             // Create our 'model', a Chat object
-            if(input.contains("-")){
-                String artist = input.split("-")[0];
-                String songName = input.split("-")[1];
-                song = new SongBean(songName, artist, StaticGlobals.currUser.getUid(), StaticGlobals.currUser.getNickName());
-            }
+            SongBean song = new SongBean(songName, artist, StaticGlobals.currUser.getUid(), StaticGlobals.currUser.getNickName());
 
             // Create a new, auto-generated child of that chat location, and save our chat data there
             StaticGlobals.mFirebaseRef.child(GlobalConstants.PARTY_TABLE).child(StaticGlobals.currParty.getPartyId()).child(GlobalConstants.PARTY_PLAYLIST).push().setValue(song);
-            inputText.setText("");
+            inputTextArtist.setText("");
+            inputTextSong.setText("");
         }
     }
 

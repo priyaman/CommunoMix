@@ -34,6 +34,10 @@ public class GlobalConstants {
 
     //Party COnstants
     public static final String UNINIT_PARTY_ID = "xxxxxUNINIT_PARTYxxxx";
+    public static final String PARTY_ID = "partyId";
+
+    //Song Constants
+    public static final String PARTY_PLAYLIST = "partyPlaylist";
     //Intents Map
     public static final String NORMAL_USER = "N";
     public static final Map<String, Class> intentsMap;
@@ -41,7 +45,7 @@ public class GlobalConstants {
     {
         HashMap<String, Class> myMap = new HashMap<String, Class>();
         myMap.put("S", com.priyaman.communomixclient.Activities.HostHomeActivity.class);
-        myMap.put("N", com.priyaman.communomixclient.Activities.UserHomeActivity.class);
+        myMap.put("N", com.priyaman.communomixclient.Activities.UserChoiceActivity.class);
         intentsMap = Collections.unmodifiableMap(myMap);
     }
 

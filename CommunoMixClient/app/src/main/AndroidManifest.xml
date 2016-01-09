@@ -53,9 +53,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.priyaman.communomixclient.Activities.LoginActivityFirebase" />
         </activity>
+
         <activity
-            android:name=".Activities.UserHomeActivity"
-            android:label="@string/title_activity_user_home"
+            android:name=".Activities.UserChoiceActivity"
+            android:label="@string/title_activity_user_choice"
             android:parentActivityName=".Activities.LoginActivityFirebase"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
@@ -63,13 +64,13 @@
                 android:value="com.priyaman.communomixclient.Activities.LoginActivityFirebase" />
         </activity>
         <activity
-            android:name=".Activities.HostPartyDashboardActivity"
-            android:label="@string/title_activity_host_party_dashboard"
-            android:parentActivityName=".Activities.UserHomeActivity"
+            android:name=".Activities.GuestHomeActivity"
+            android:label="@string/title_activity_guest_home"
+            android:parentActivityName=".Activities.UserChoiceActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.priyaman.communomixclient.Activities.UserHomeActivity" />
+                android:value="com.priyaman.communomixclient.Activities.UserChoiceActivity" />
         </activity>
     </application>
 
